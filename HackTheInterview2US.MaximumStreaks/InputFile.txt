@@ -1,0 +1,10 @@
+﻿9
+Heads
+Tails
+Tails
+Tails
+Heads
+Heads
+Heads
+Heads
+Heads
