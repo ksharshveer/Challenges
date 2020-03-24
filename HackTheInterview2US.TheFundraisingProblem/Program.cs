@@ -45,14 +45,14 @@ namespace HackTheInterview2US.TheFundraisingProblem
                     var mnt = ReadIntsArr(sr);
                     var (numOfGroups, studentsInGroup, numOfTable) = (mnt[0], mnt[1], mnt[2]);
 
-                    ArrayList charmGroups = new ArrayList();
+                    List<int[]> charmGroups = new List<int[]>();
                     for (int i = 0; i < numOfGroups; i++)
                     {
                         // Each int represent charm of a student in the group
                         charmGroups.Add(ReadIntsArr(sr));
                     }
 
-                    ArrayList generousGuests = new ArrayList();
+                    List<int[]> generousGuests = new List<int[]>();
                     for (int i = 0; i < numOfTable; i++)
                     {
                         // 1st int is number of guests at the table
@@ -69,7 +69,7 @@ namespace HackTheInterview2US.TheFundraisingProblem
             }
         }
 
-        private static int Solve(ArrayList charmGroups, ArrayList generousGuests, int maxGuestsApproachByStuds)
+        private static int Solve(List<int[]> charmGroups, List<int[]> generousGuests, int maxGuestsApproachByStuds)
         {
             return 0;
         }
