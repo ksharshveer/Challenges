@@ -38,7 +38,8 @@ namespace PairSum
             int first = 0, firstIndex = -1;
             int second = 0, secondIndex = -1;
 
-            // Much slower if used hashtable to help track indexes
+            // Much slower if used hashtable to help track indexes, although,
+            // dictionary is suitable having hashset equivalent performance
             HashSet<int> seenInts = new HashSet<int>();
             foreach (int num in ints)
             {
