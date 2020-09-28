@@ -14,22 +14,22 @@ namespace BorzeDecode
         static void Main(string[] args)
         {
             var input = ".-.--";  // 012
-            var res = Method(input);
+            var res = Method(ref input);
             Console.WriteLine(res);
 
             input = "--.";  // 20
-            res = Method(input);
+            res = Method(ref input);
             Console.WriteLine(res);
 
             input = "-..-.--";  // 1012
-            res = Method(input);
+            res = Method(ref input);
             Console.WriteLine(res);
         }
 
-        public static string Method(string input)
+        public static string Method(ref string input)
         {
             var code = new List<char>();
-            for (int i = 0; i < input.Length - 1; i++)
+            for (int i = 0; i < input.Length; i++)
             {
                 if (input[i] == '-')
                 {
@@ -40,6 +40,7 @@ namespace BorzeDecode
                 }
                 else code.Add('0');
             }
+
             return new string(code.ToArray());
         }
     }
