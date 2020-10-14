@@ -7,7 +7,7 @@ using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace BorzeDecode
+namespace Codeforces.BorzeDecode
 {
     class Program
     {

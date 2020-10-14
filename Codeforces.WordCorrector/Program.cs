@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WordCorrector
+namespace Codeforces.WordCorrector
 {
     class Program
     {
