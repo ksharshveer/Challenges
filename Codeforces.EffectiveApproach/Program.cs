@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 
 namespace Codeforces.EffectiveApproach
 {
@@ -8,47 +8,69 @@ namespace Codeforces.EffectiveApproach
     {
         static void Main(string[] args)
         {
-            int elementsCount = Convert.ToInt32(Console.ReadLine());
-            var elements = Console.ReadLine()
-            .Split(' ')
-            .Select(s => Convert.ToInt32(s))
-            .ToArray();
-
+            // Holds info in tuple of (normal comparisons count, reverse comparisons count),
+            // for integer query elements.
             var preComputedMap = new Dictionary<int, (int, int)>();
-            for (int i = 0; i < elements.Length; i++)
-            {
-                if (!preComputedMap.ContainsKey(elements[i]))
-                {
-                    preComputedMap[elements[i]] = (i + 1, elements.Length - i);
-                }
-            }
 
-            ulong normalComparisonsCount = 0;
-            ulong reverseComparisonsCount = 0;
+            int elementsCount = Convert.ToInt32(Console.ReadLine());
+            // Compute & cache all forward and reverse comparisons
+            ReadAndProcessArray(elementsCount, preComputedMap);
 
             int queriesCount = Convert.ToInt32(Console.ReadLine());
-            var queries = Console.ReadLine()
-            .Split()
-            .Select(s => Convert.ToInt32(s))
-            .ToList();
+            ReadAndProcessQueries(out ulong normalComparisons, out ulong reverseComparisons, elementsCount, queriesCount, preComputedMap);
 
-            int temp;
-            queries.ForEach(q =>
+            Console.WriteLine($"{normalComparisons} {reverseComparisons}");
+        }
+
+        private static void ReadAndProcessQueries(out ulong normalComparisons, out ulong reverseComparisons, int elementsCount, int queriesCount, Dictionary<int, (int, int)> preComputedMap)
+        {
+            normalComparisons = reverseComparisons = 0;
+            StringBuilder word = new StringBuilder();
+            int queryElement;
+            for (int i = 0; i < queriesCount; i++)
             {
-                temp = Convert.ToInt32(q);
-                if (preComputedMap.ContainsKey(temp))
+                queryElement = ReadAsIntegerUntilSpace(word);
+                if (preComputedMap.ContainsKey(queryElement))
                 {
-                    normalComparisonsCount += (ulong) preComputedMap[temp].Item1;
-                    reverseComparisonsCount += (ulong) preComputedMap[temp].Item2;
+                    normalComparisons += (ulong) preComputedMap[queryElement].Item1;
+                    reverseComparisons += (ulong) preComputedMap[queryElement].Item2;
                 }
                 else
                 {
-                    normalComparisonsCount += (ulong) elementsCount;
-                    reverseComparisonsCount += (ulong) elementsCount;
+                    normalComparisons += (ulong) elementsCount;
+                    reverseComparisons += (ulong) elementsCount;
                 }
-            });
-
-            Console.WriteLine($"{normalComparisonsCount} {reverseComparisonsCount}");
+            }
+            Console.ReadLine(); // Consume remaining line.
         }
+
+        private static void ReadAndProcessArray(int elementsCount, Dictionary<int, (int, int)> preComputedMap)
+        {
+            int element;
+            StringBuilder word = new StringBuilder();
+            for (int i = 0; i < elementsCount; i++)
+            {
+                element = ReadAsIntegerUntilSpace(word);
+                if (!preComputedMap.ContainsKey(element))
+                {
+                    preComputedMap[element] = (i + 1, elementsCount - i);
+                }
+            }
+            Console.ReadLine(); // Consume remaining line.
+        }
+
+        private static int ReadAsIntegerUntilSpace(StringBuilder word)
+        {
+            word.Clear();
+            char c = (char)Console.Read();
+            while (char.IsWhiteSpace(c)) c = (char)Console.Read();
+            while (!char.IsWhiteSpace(c))
+            {
+                word.Append(c);
+                c = (char)Console.Read();
+            }
+            return Convert.ToInt32(word.ToString());
+        }
+
     }
 }
