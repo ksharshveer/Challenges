@@ -21,14 +21,22 @@ namespace Codeforces.PetrAndBook
 
         private static int GetLastBookReadDay(int totalPages, int[] bookReadingSchedule)
         {
-            int pagesRead = 0;
-            int dayIndex = 0;
-            while (pagesRead < totalPages)
+            int weeklyReading = bookReadingSchedule.Sum();
+            int weeksNeeded = (int) Math.Ceiling((double)totalPages / weeklyReading) ;
+            int pagesRead = weeklyReading * (weeksNeeded - 1);
+
+            int day = 1;
+            foreach (var todaysReading in bookReadingSchedule)
             {
-                pagesRead += bookReadingSchedule[dayIndex];
-                if (pagesRead < totalPages) dayIndex = ++dayIndex % bookReadingSchedule.Length;
+                if (pagesRead < totalPages)
+                {
+                    pagesRead += todaysReading;
+                    if (pagesRead < totalPages) day += 1;
+                }
+                else break;
             }
-            return ++dayIndex;
+
+            return day;
         }
     }
 }
