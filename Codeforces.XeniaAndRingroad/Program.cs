@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Codeforces.XeniaAndRingroad
@@ -22,27 +21,18 @@ namespace Codeforces.XeniaAndRingroad
             Console.WriteLine(MinTimeToCompleteTasks(housesCount, tasks));
         }
 
-        private static int MinTimeToCompleteTasks(int housesCount, int[] tasks)
+        private static ulong MinTimeToCompleteTasks(int housesCount, int[] tasks)
         {
-            int minTime = 0;
-            Queue<int> housesQ = new Queue<int>(Enumerable.Range(1, housesCount));
+            ulong minTime = 0;
 
-            int curHouse = housesQ.Dequeue();
-            int taskIndex = 0;
-            while (true)
+            int curHouse = 1;
+            int curTask;
+            for (int i = 0; i < tasks.Length; i++)
             {
-                if (taskIndex >= tasks.Length) break;
-
-                // Move to next task if we can we do the one or more tasks at this house
-                if (tasks[taskIndex] == curHouse) taskIndex++;
-                else // Move to next house
-                {
-                    minTime++;
-
-                    // Houses are on a circular road
-                    housesQ.Enqueue(curHouse);
-                    curHouse = housesQ.Dequeue();
-                }
+                curTask = tasks[i];
+                if (curTask < curHouse) minTime += (ulong) (housesCount - (curHouse - curTask));
+                else if (curTask > curHouse) minTime += (ulong) (curTask - curHouse);
+                curHouse = curTask;
             }
 
             return minTime;
