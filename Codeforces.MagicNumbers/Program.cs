@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 
 namespace Codeforces.MagicNumbers
 {
@@ -20,8 +19,32 @@ namespace Codeforces.MagicNumbers
 
         private static bool IsMagicNumber(string input)
         {
-            var pattern = new Regex(@"^((1)|(14)|(144))+$", RegexOptions.Compiled);
-            return pattern.IsMatch(input);
+            bool found = true;
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (input[i] != '1')
+                {
+                    found = false;
+                    break;
+                }
+
+                if (i < input.Length-1)
+                {
+                    char next = input[i + 1];
+                    if (next == '4')
+                    {
+                        if (i + 1 < input.Length - 1)
+                        {
+                            next = input[i + 2];
+                            if (next == '4') i += 1;
+                        }
+                        i += 1;
+                    }
+                }
+            }
+
+            return found;
         }
     }
 }
