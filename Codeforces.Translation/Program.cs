@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace Codeforces.Translation
 {
@@ -19,7 +18,14 @@ namespace Codeforces.Translation
 
         private static bool IsReversed(string word, string translatedWord)
         {
-            return word.SequenceEqual(translatedWord.Reverse());
+            if (word.Length != translatedWord.Length) return false;
+
+            for ((int i, int j) = (0, word.Length - 1); i < word.Length; i++, j--)
+            {
+                if (word[i] != translatedWord[j]) return false;
+            }
+
+            return true;
         }
     }
 }
