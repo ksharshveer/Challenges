@@ -13,17 +13,20 @@ namespace Codeforces.Fence
 
         private static int GetFenceIndexToPassPiano(int[] fenceHeights, int pianoWidth)
         {
-            int minIndex = 0;
-            int minSum = int.MaxValue;
+            int minIndex = 1;
+            if (fenceHeights.Length == 1) return minIndex;
 
-            for (int i = pianoWidth; i < fenceHeights.Length + 1; i++)
+            int prevSum = fenceHeights.AsSpan(0..pianoWidth).ToArray().Sum();
+            int minSum = prevSum;
+            for (int i = 1; i <= fenceHeights.Length - pianoWidth; i++)
             {
-                var curSum = fenceHeights.AsSpan((i - pianoWidth)..i).ToArray().Sum();
+                var curSum = prevSum + fenceHeights[i + pianoWidth - 1] - fenceHeights[i - 1];
                 if (curSum < minSum)
                 {
+                    minIndex = i + 1;
                     minSum = curSum;
-                    minIndex = i - pianoWidth + 1;
                 }
+                prevSum = curSum;
             }
 
             return minIndex;
