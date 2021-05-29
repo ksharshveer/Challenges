@@ -27,7 +27,31 @@ namespace Codeforces.TwoBagsOfPotatoes
 
         private static bool PossiblePotatoesIn1stBag(int potatoesIn2ndBag, int divisorK, int potatoesLimit, out List<int> potatoCounts)
         {
-            throw new NotImplementedException();
+            potatoCounts = new List<int>();
+
+            if (potatoesIn2ndBag >= potatoesLimit) return false;
+
+            // Needs to be faster here
+            for (int i = 1; i <= divisorK && potatoesIn2ndBag + i <= potatoesLimit; i++)
+            {
+                var potatoesSum = potatoesIn2ndBag + i;  // i is the possible potatoes in 1st bag
+                if (potatoesSum % divisorK == 0)
+                {
+                    potatoCounts.Add(i);
+                    break;
+                }
+            }
+
+            if (potatoCounts.Count <= 0) return false;
+
+            int nextCount = potatoCounts[0] + divisorK;
+            while (nextCount + potatoesIn2ndBag <= potatoesLimit)
+            {
+                potatoCounts.Add(nextCount);
+                nextCount += divisorK;
+            }
+
+            return true;
         }
 
         private static void ReadInput(out int potatoesIn2ndBag, out int divisorK, out int potatoesLimit)
