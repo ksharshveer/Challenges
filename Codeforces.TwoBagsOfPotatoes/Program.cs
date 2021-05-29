@@ -31,16 +31,10 @@ namespace Codeforces.TwoBagsOfPotatoes
 
             if (potatoesIn2ndBag >= potatoesLimit) return false;
 
-            // Needs to be faster here
-            for (int i = 1; i <= divisorK && potatoesIn2ndBag + i <= potatoesLimit; i++)
-            {
-                var potatoesSum = potatoesIn2ndBag + i;  // i is the possible potatoes in 1st bag
-                if (potatoesSum % divisorK == 0)
-                {
-                    potatoCounts.Add(i);
-                    break;
-                }
-            }
+            var modded = potatoesIn2ndBag % divisorK;
+            var possibleFirst = divisorK - modded;
+            var potatoesSum = possibleFirst + potatoesIn2ndBag;
+            if (potatoesSum <= potatoesLimit && potatoesSum % divisorK == 0) potatoCounts.Add(possibleFirst);
 
             if (potatoCounts.Count <= 0) return false;
 
