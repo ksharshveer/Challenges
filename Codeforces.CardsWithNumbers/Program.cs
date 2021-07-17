@@ -12,25 +12,13 @@ namespace Codeforces.CardsWithNumbers
         {
             ReadInput(out int n, out List<int> twoNNums);
 
-            StringBuilder sb = new StringBuilder();
-            if (CanPairCards(n, twoNNums, out List<(int Index1, int Index2 )> indexPairs))
-            {
-                foreach (var indexPair in indexPairs)
-                {
-                    sb.Append($"{indexPair.Index1} {indexPair.Index2}");
-                    sb.Append("\n");
-                }
-            }
-            else sb.Append("-1");
-
-            File.WriteAllText("output.txt", sb.ToString().TrimEnd());
+            StringBuilder result = new StringBuilder();
+            PairCards(n, twoNNums, result);
+            File.WriteAllText("output.txt", result.ToString().TrimEnd());
         }
 
-        private static bool CanPairCards(int n, List<int> twoNNums, out List<(int Index1, int Index2)> indexPairs)
+        private static void PairCards(int n, List<int> twoNNums, StringBuilder sb)
         {
-            // `indexPairs` Note! Indexes start from 1
-            indexPairs = new List<(int Index1, int Index2)>(n);
-
             Dictionary<int, int> seens = new Dictionary<int, int>();
             for (int i = 0; i < twoNNums.Count; i++)
             {
@@ -40,13 +28,19 @@ namespace Codeforces.CardsWithNumbers
                 }
                 else
                 {
-                    indexPairs.Add((seens[twoNNums[i]] + 1, i + 1));
+                    sb.Append($"{seens[twoNNums[i]] + 1} {i + 1}");
+                    sb.Append("\n");
                     seens.Remove(twoNNums[i]);
                 }
             }
 
-            if (seens.Count > 0 || indexPairs.Count != n) return false;
-            return true;
+            if (seens.Count > 0)
+            {
+                sb.Clear();
+                sb.Append("-1");
+            }
+
+            seens.Clear();
         }
 
         private static void ReadInput(out int n, out List<int> twoNNums)
